@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
     if(isHuman){
         cout << "Первый массив: " << endl;
         printTable(array1, x1, x2);
-        if(isHuman) cout << "Второй массив: " << endl;
+        cout << "Второй массив: " << endl;
         printTable(array2, -x2, -x1);
     }
     else{
