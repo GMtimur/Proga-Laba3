@@ -104,13 +104,17 @@ int main(int argc, char* argv[]) {
     double x1, x2, a, b, c;
     if(isHuman) cout << "Введите х1, х2, а, b, c: " << endl;
     cin >> x1 >> x2 >> a >> b >> c;
+    if(x1 == -0) x1 = 0;
+    if(x2 == -0) x2 = 0;
     vector<double> array1(15), array2(15);
     for (int i = 0; i < 15; ++i) {
         double x = x1 + (x2 - x1) * (i / 14.0);
+        if(x == -0) x = 0;
         array1[i] = roundValue(F(x, a, b, c), a, b, c);
     }
     for (int i = 0; i < 15; ++i) {
         double x = -x2 + (x2 - x1) * (i / 14.0);
+        if(x == -0) x = 0;
         array2[i] = roundValue(F(x, a, b, c), a, b, c);
     }
     if(isHuman){
@@ -121,6 +125,7 @@ int main(int argc, char* argv[]) {
     }
     else{
         for (int i = 0; i < 15; i++) {
+            if(array1[i] == -0) array1[i] = 0;
             cout << array1[i];
             if(i != 14){
                 cout << " ";
@@ -128,6 +133,7 @@ int main(int argc, char* argv[]) {
         }
         cout << endl;
         for (int i = 0; i < 15; i++) {
+            if(array2[i] == -0) array2[i] = 0;
             cout << array2[i];
             if(i != 14){
                 cout << " ";
@@ -141,6 +147,7 @@ int main(int argc, char* argv[]) {
     sort(sortedArray1.begin(), sortedArray1.end());
     if(isHuman) cout << "Сортированный массив: " << endl;
     for (int i = 0; i < 15; i++) {
+            if(sortedArray1[i] == -0) sortedArray1[i] = 0;
             cout << sortedArray1[i];
             if(i != 14){
                 cout << " ";
