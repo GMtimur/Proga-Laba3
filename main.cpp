@@ -120,12 +120,18 @@ int main(int argc, char* argv[]) {
         printTable(array2, -x2, -x1);
     }
     else{
-        for (double val : array1) {
-            cout << val << " ";
+        for (int i = 0; i < 15; i++) {
+            cout << array1[i];
+            if(i != 14){
+                cout << " ";
+            }
         }
         cout << endl;
-        for (double val : array2) {
-            cout << val << " ";
+        for (int i = 0; i < 15; i++) {
+            cout << array2[i];
+            if(i != 14){
+                cout << " ";
+            }
         }
         cout << endl;
     }
@@ -134,9 +140,12 @@ int main(int argc, char* argv[]) {
     vector<double> sortedArray1 = array1;
     sort(sortedArray1.begin(), sortedArray1.end());
     if(isHuman) cout << "Сортированный массив: " << endl;
-    for (double val : sortedArray1) {
-        cout << val << " ";
-    }
+    for (int i = 0; i < 15; i++) {
+            cout << sortedArray1[i];
+            if(i != 14){
+                cout << " ";
+            }
+        }
     cout << endl;
     if(isHuman) cout << "Дубликаты: " << endl;
     cout << countDuplicates(array1) << endl;
@@ -166,14 +175,20 @@ int main(int argc, char* argv[]) {
         positiveArray2.push_back(0);
     }
     if(isHuman) cout << "Отрицательный массив: " << endl;
-    for (double val : negativeArray1) {
-        cout << val << " ";
-    }
+    for (int i = 0; i < 15; i++) {
+            cout << negativeArray1[i];
+            if(i != 14){
+                cout << " ";
+            }
+        }
     cout << endl;
     if(isHuman) cout << "Положительный массив: " << endl;
-    for (double val : positiveArray2) {
-        cout << val << " ";
-    }
+    for (int i = 0; i < 15; i++) {
+            cout << positiveArray2[i];
+            if(i != 14){
+                cout << " ";
+            }
+        }
     cout << endl;
 
     return 0;
