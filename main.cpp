@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
+#include <bitset>
 
 using namespace std;
 
@@ -23,13 +24,13 @@ double roundValue(double value, double a, double b, double c) {
     int a_int = static_cast<int>(a);
     int b_int = static_cast<int>(b);
     int c_int = static_cast<int>(c);
-    if ((a_int | b_int) & (a_int | c_int) == 1) {
+    if(((a_int | b_int) & (a_int | c_int)) == 0){
         return (value - static_cast<int>(value) >= 0.5) ? ceil(value) : floor(value);
     } else {
+        // Обычное округление до двух знаков после запятой
         return round(value * 100.0) / 100.0;
     }
 }
-
 void printMinGroups(const vector<double>& arr) {
     for (int i = 0; i < 3; ++i) {
         double minVal = *min_element(arr.begin() + i * 5, arr.begin() + (i + 1) * 5);
