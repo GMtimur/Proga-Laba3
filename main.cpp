@@ -19,12 +19,12 @@ double F(double x, double a, double b, double c) {
     }
 }
 
-double roundValue(double value, int a, int b, int c) {
+double roundValue(double value, double a, double b, double c) {
     int a_int = static_cast<int>(a);
     int b_int = static_cast<int>(b);
     int c_int = static_cast<int>(c);
-    if ((a_int | b_int) & (a_int | c_int) == 0) {
-        return round(value);
+    if ((a_int | b_int) & (a_int | c_int) == 1) {
+        return (value - static_cast<int>(value) >= 0.5) ? ceil(value) : floor(value);
     } else {
         return round(value * 100.0) / 100.0;
     }
