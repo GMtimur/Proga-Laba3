@@ -7,6 +7,7 @@
 #include <cstring>
 #include <sstream>
 #include <bitset>
+#include <unordered_set>
 
 using namespace std;
 
@@ -78,21 +79,26 @@ int countDuplicates(const vector<double>& arr) {
     return duplicateCount;
 }
 
-int findPowersOfTwoIndex(const vector<double>& arr) {
+bool isPowerOfTwo(double num) {
+    return num > 0 && (std::floor(log2(num)) == log2(num));
+}
+
+int findPowersOfTwoIndex(const std::vector<double>& arr) {
+    std::unordered_set<double> foundPowers; // Для хранения уникальных степеней двойки
+
     for (int i = 0; i < arr.size(); ++i) {
-        bool isPowerOfTwo = true;
-        for (int j = 0; j < arr.size() - i; ++j) {
-            if (arr[i + j] != pow(2, j)) {
-                isPowerOfTwo = false;
-                break;
+        if (isPowerOfTwo(arr[i])) {
+            foundPowers.insert(arr[i]); // Добавляем найденную степень двойки
+
+            // Проверяем, достаточно ли у нас степеней двойки
+            if (foundPowers.size() >= 2) {
+                return i - foundPowers.size() + 1; // Возвращаем индекс начала последовательности
             }
         }
-        if (isPowerOfTwo) {
-            return i + 1;
-        }
     }
-    return -1;
+    return -1; // Если не нашли, возвращаем -1
 }
+
 
 int main(int argc, char* argv[]) {
     setlocale(LC_CTYPE, "rus");
