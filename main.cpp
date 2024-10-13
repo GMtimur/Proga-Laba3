@@ -27,7 +27,6 @@ double roundValue(double value, double a, double b, double c) {
     if(((a_int | b_int) & (a_int | c_int)) == 0){
         return (value - static_cast<int>(value) >= 0.5) ? ceil(value) : floor(value);
     } else {
-        // Обычное округление до двух знаков после запятой
         return round(value * 100.0) / 100.0;
     }
 }
