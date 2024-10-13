@@ -83,20 +83,17 @@ bool isPowerOfTwo(double num) {
     return num > 0 && (std::floor(log2(num)) == log2(num));
 }
 
-int findPowersOfTwoIndex(const std::vector<double>& arr) {
-    std::unordered_set<double> foundPowers; // Для хранения уникальных степеней двойки
-
+int findPowersOfTwoIndex(const vector<double>& arr) {
+    unordered_set<double> foundPowers;
     for (int i = 0; i < arr.size(); ++i) {
         if (isPowerOfTwo(arr[i])) {
-            foundPowers.insert(arr[i]); // Добавляем найденную степень двойки
-
-            // Проверяем, достаточно ли у нас степеней двойки
+            foundPowers.insert(arr[i]);
             if (foundPowers.size() >= 2) {
-                return i - foundPowers.size() + 1; // Возвращаем индекс начала последовательности
+                return i - foundPowers.size() + 1;
             }
         }
     }
-    return -1; // Если не нашли, возвращаем -1
+    return -1;
 }
 
 
