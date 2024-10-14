@@ -80,16 +80,21 @@ int countDuplicates(const vector<double>& arr) {
 }
 
 bool isPowerOfTwo(double num) {
-    return num > 0 && (std::floor(log2(num)) == log2(num));
+    return num > 0 && (ceil(log2(num)) == floor(std::log2(num)));
 }
 
 int findPowersOfTwoIndex(const vector<double>& arr) {
-    unordered_set<double> foundPowers;
     for (int i = 0; i < arr.size(); ++i) {
         if (isPowerOfTwo(arr[i])) {
-            foundPowers.insert(arr[i]);
-            if (foundPowers.size() >= 2) {
-                return i - foundPowers.size() + 1;
+            int j = i;
+            while (j < arr.size() && isPowerOfTwo(arr[j])) {
+                if (j > i && arr[j] <= arr[j - 1]) {
+                    break;
+                }
+                j++;
+            }
+            if (j - i > 1) {
+                return i;
             }
         }
     }
