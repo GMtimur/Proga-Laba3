@@ -80,27 +80,28 @@ int countDuplicates(const vector<double>& arr) {
 }
 
 bool isPowerOfTwo(double num) {
-    return num > 0 && (ceil(log2(num)) == floor(std::log2(num)));
+    return num > 0 && (log2(num) == floor(log2(num)));
 }
 
-int findPowersOfTwoIndex(const vector<double>& arr) {
-    for (int i = 0; i < arr.size(); ++i) {
+int findPowerOfTwoSequenceIndex(const vector<double>& arr) {
+    for (size_t i = 0; i < arr.size(); ++i) {
         if (isPowerOfTwo(arr[i])) {
-            int j = i;
-            while (j < arr.size() && isPowerOfTwo(arr[j])) {
-                if (j > i && arr[j] <= arr[j - 1]) {
-                    break;
+            double expectedValue = arr[i];
+            size_t count = 0; 
+            for (size_t j = i; j < arr.size(); ++j) {
+                if (arr[j] != expectedValue) {
+                    break; 
                 }
-                j++;
+                expectedValue *= 2; 
+                count++;
             }
-            if (j - i > 1) {
-                return i;
+            if (count >= 2 && (i + count) == arr.size()) {
+                return static_cast<int>(i + 1);
             }
         }
     }
     return -1;
 }
-
 
 int main(int argc, char* argv[]) {
     setlocale(LC_CTYPE, "rus");
@@ -165,7 +166,7 @@ int main(int argc, char* argv[]) {
     if(isHuman) cout << "Дубликаты: " << endl;
     cout << countDuplicates(array1) << endl;
     if(isHuman) cout << "Индекс степени двойки: " << endl;
-    cout << findPowersOfTwoIndex(sortedArray1) << endl;
+    cout << findPowerOfTwoSequenceIndex(sortedArray1) << endl;
     vector<double> negativeArray1, positiveArray2;
     for (double val : array2) {
         if (val < 0) {
