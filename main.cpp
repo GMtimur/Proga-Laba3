@@ -83,7 +83,7 @@ bool isPowerOfTwo(double num) {
     return num > 0 && fmod(num, 1) == 0 && (log2(num) == floor(log2(num)));
 }
 
-int findPowerOfTwoSequenceIndex(const vector<double>& arr, int powOfTwo) {
+int findPowerOfTwoSequenceIndex(const vector<double>& arr) {
     for (size_t i = 0; i < sizeof(arr); ++i) {
         if (isPowerOfTwo(arr[i])) {
             size_t j = i;
@@ -96,11 +96,12 @@ int findPowerOfTwoSequenceIndex(const vector<double>& arr, int powOfTwo) {
             }
 
             if (j == sizeof(arr)) {
-                powOfTwo = i;
+                return i;
                 break;
             }
         }
     }
+    return -1;
 }
 
 int main(int argc, char* argv[]) {
@@ -111,7 +112,6 @@ int main(int argc, char* argv[]) {
 		isHuman = true;
 	}
     double x1, x2, a, b, c;
-    int powOfTwo = -1;
     if(isHuman) cout << "Введите х1, х2, а, b, c: " << endl;
     cin >> x1 >> x2 >> a >> b >> c;
     if(x1 == -0) x1 = 0;
@@ -164,11 +164,10 @@ int main(int argc, char* argv[]) {
             }
         }
     cout << endl;
-    findPowerOfTwoSequenceIndex(array1, powOfTwo);
     if(isHuman) cout << "Дубликаты: " << endl;
     cout << countDuplicates(array1) << endl;
     if(isHuman) cout << "Индекс степени двойки: " << endl;
-    cout << powOfTwo << endl;
+    cout << findPowerOfTwoSequenceIndex(array1) << endl;
     vector<double> negativeArray1, positiveArray2;
     for (double val : array2) {
         if (val < 0) {
