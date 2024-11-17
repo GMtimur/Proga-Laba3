@@ -84,7 +84,7 @@ bool isPowerOfTwo(double num) {
 }
 
 int findPowerOfTwoSequenceIndex(const vector<double> arr) {
-    for (size_t i = 0; i < arr.size() - 1; ++i) {
+    for (size_t i = 0; i < arr.size(); ++i) {
         if (isPowerOfTwo(arr[i])) {
             size_t j = i;
 
