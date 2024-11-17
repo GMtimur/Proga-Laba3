@@ -83,19 +83,19 @@ bool isPowerOfTwo(double num) {
     return num > 0 && fmod(num, 1) == 0 && (log2(num) == floor(log2(num)));
 }
 
-int findPowerOfTwoSequenceIndex(const vector<double>& arr) {
-    for (size_t i = 0; i < sizeof(arr) - 1; ++i) {
+int findPowerOfTwoSequenceIndex(const vector<double> arr) {
+    for (size_t i = 0; i < arr.size() - 1; ++i) {
         if (isPowerOfTwo(arr[i])) {
             size_t j = i;
 
             double last_num = arr[i];
 
-            while (j < sizeof(arr) - 1 && isPowerOfTwo(last_num) && arr[j] >= last_num && isPowerOfTwo(arr[j])) {
+            while (j < arr.size() && isPowerOfTwo(last_num) && arr[j] >= last_num && isPowerOfTwo(arr[j])) {
                 last_num = arr[j];
                 ++j;
             }
 
-            if (j == sizeof(arr) - 1) {
+            if (j == arr.size()) {
                 return i;
                 break;
             }
