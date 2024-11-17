@@ -84,18 +84,18 @@ bool isPowerOfTwo(double num) {
 }
 
 int findPowerOfTwoSequenceIndex(const vector<double>& arr) {
-    for (size_t i = 0; i < sizeof(arr); ++i) {
+    for (size_t i = 0; i < sizeof(arr) - 1; ++i) {
         if (isPowerOfTwo(arr[i])) {
             size_t j = i;
 
             double last_num = arr[i];
 
-            while (j < sizeof(arr) && isPowerOfTwo(last_num) && arr[j] >= last_num && isPowerOfTwo(arr[j])) {
+            while (j < sizeof(arr) - 1 && isPowerOfTwo(last_num) && arr[j] >= last_num && isPowerOfTwo(arr[j])) {
                 last_num = arr[j];
                 ++j;
             }
 
-            if (j == sizeof(arr)) {
+            if (j == sizeof(arr) - 1) {
                 return i;
                 break;
             }
