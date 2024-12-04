@@ -146,7 +146,7 @@ int main(int argc, char* argv[]) {
     bool isHuman = false;
     if (argc <= 1 || strcmp(argv[1], "false") != 0)
     {
-        isHuman = true;
+        isHuman = false;
     }
     double x1, x2, a, b, c;
     if(isHuman) cout << "Введите х1, х2, а, b, c: " << endl;
@@ -191,6 +191,7 @@ int main(int argc, char* argv[]) {
                 cout << " ";
             }
         }
+        cout << endl;
     }
 
     if(isHuman) cout << "Минимальные элементы групп: " << endl;
