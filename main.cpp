@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
     bool isHuman = false;
     if (argc <= 1 || strcmp(argv[1], "false") != 0)
     {
-        isHuman = false;
+        isHuman = true;
     }
     double x1, x2, a, b, c;
     if(isHuman) cout << "Введите х1, х2, а, b, c: " << endl;
@@ -208,23 +208,23 @@ int main(int argc, char* argv[]) {
     if(isHuman) cout << "Индекс степени двойки: " << endl;
     cout << findPowerOfTwoSequenceIndex(array1) << endl;
 
-    double negativeArray1[15] = {0}, positiveArray2[15] = {0};
+    double negativeArray1[15], positiveArray2[15];
     int negIndex = 0, posIndex = 0;
 
+    for (int i = 0; i < 15; ++i) {
+        if (array1[i] > 0) {
+            positiveArray2[posIndex++] = array1[i];
+        } 
+        if (array2[i] > 0) {
+            positiveArray2[posIndex++] = array2[i];
+        } 
+    }
     for (int i = 0; i < 15; ++i) {
         if (array2[i] < 0) {
             negativeArray1[negIndex++] = array2[i];
         }
-        if (array2[i] > 0) {
-            positiveArray2[posIndex++] = array2[i];
-        }
-    }
-    for (int i = 0; i < 15; ++i) {
         if (array1[i] < 0) {
             negativeArray1[negIndex++] = array1[i];
-        }
-        if (array1[i] > 0) {
-            positiveArray2[posIndex++] = array1[i];
         }
     }
 
