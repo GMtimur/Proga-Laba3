@@ -57,9 +57,9 @@ void header(int widthX, int widthF){
 void table(double a, double b, int widthX, int widthF) {
     cout << "|";
     string num1 = to_string(a);
-    num1.erase(num1.length() - 4, 4); // Обрезаем до 2 знаков после запятой
+    num1.erase(num1.length() - 4, 4);
     string num2 = to_string(b);
-    num2.erase(num2.length() - 4, 4); // Обрезаем до 2 знаков после запятой
+    num2.erase(num2.length() - 4, 4); 
     
     while (num1.length() < widthX)
         num1 = " " + num1;
@@ -71,9 +71,8 @@ void table(double a, double b, int widthX, int widthF) {
 
 void printTable(double arr[], double startX, double endX) {
     int n = 15;
-    double step = (endX - startX) / (n - 1);  // шаг для значений x
+    double step = (endX - startX) / (n - 1);
 
-    // Вычисление максимальной ширины для столбцов
     int maxLenX = to_string(startX).length();
     int maxLenF = 0;
     for (int i = 0; i < n; ++i) {
@@ -83,7 +82,7 @@ void printTable(double arr[], double startX, double endX) {
         }
     }
     
-    header(maxLenX, maxLenF);  // Заголовок таблицы с отступами
+    header(maxLenX, maxLenF); 
     for (int i = 0; i < n; ++i) {
         double x = startX + step * i;
         table(x, arr[i], maxLenX, maxLenF);
@@ -155,20 +154,16 @@ int main(int argc, char* argv[]) {
     if(x2 == -0) x2 = 0;
     
     double array1[15], array2[15];
-    // Заполнение первого массива
     for (int i = 0; i < 15; ++i) {
         double x = x1 + (x2 - x1) * (i / 14.0);
         if(x == -0) x = 0;
         array1[i] = roundValue(F(x, a, b, c), a, b, c);
     }
-    // Заполнение второго массива
     for (int i = 0; i < 15; ++i) {
         double x = -x2 + (x2 - x1) * (i / 14.0);
         if(x == -0) x = 0;
         array2[i] = roundValue(F(x, a, b, c), a, b, c);
     }
-
-    // Вывод таблиц для первого и второго массивов
     if(isHuman) {
         cout << "Первый массив: " << endl;
         printTable(array1, x1, x2);
@@ -216,7 +211,6 @@ int main(int argc, char* argv[]) {
     double negativeArray1[15] = {0}, positiveArray2[15] = {0};
     int negIndex = 0, posIndex = 0;
 
-    // Заполняем массивы для отрицательных и положительных значений
     for (int i = 0; i < 15; ++i) {
         if (array2[i] < 0) {
             negativeArray1[negIndex++] = array2[i];
