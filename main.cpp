@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-#include <vector>
 #include <algorithm>
 #include <map>
 #include <cmath>
@@ -31,44 +30,72 @@ double roundValue(double value, double a, double b, double c) {
         return round(value * 100.0) / 100.0;
     }
 }
-void printMinGroups(const vector<double>& arr) {
-    for (int i = 0; i < 3; ++i) {
-        double minVal = *min_element(arr.begin() + i * 5, arr.begin() + (i + 1) * 5);
-        cout << minVal << endl;
-    }
+
+void tab(int a, string d)
+{
+    for (int i = 0; i < a; i++)
+        cout << d;
 }
 
-string centerAlign(double value, int width) {
-    stringstream ss;
-    ss << fixed << setprecision(2) << value;
-    string str = ss.str();
-    int padding = width - str.length();
-    if (padding > 0) {
-        int leftPadding = padding / 2;
-        int rightPadding = padding - leftPadding;
-        return string(leftPadding, ' ') + str + string(rightPadding, ' ');
-    }
-    return str;
+void header(int widthX, int widthF){
+    tab(widthX + 4, "_");
+    cout << endl;
+    cout << "|";
+    tab((widthX - 1) / 2, " ");
+    cout << "x";
+    tab((widthX - 1) / 2, " ");
+    cout << "||";
+    tab((widthF - 1) / 2, " ");
+    cout << "F";
+    tab((widthF - 1) / 2, " ");
+    cout << "|";
+    cout << endl;
+    tab(widthX + widthF + 8, "_");
+    cout << endl;
 }
 
-void printTable(const vector<double>& arr, double startX, double endX) {
-    cout << "__________________________" << endl;
-    cout << "|         x  | |   F   |" << endl;
-    cout << "__________________________" << endl;
-
-    for (size_t i = 0; i < arr.size(); ++i) {
-        double x = startX + (endX - startX) * (i / 14.0);
-        cout << "| " << setw(10) << fixed << setprecision(2) << x << " | "
-             << "|" << centerAlign(arr[i], 7) << "|" << endl;
-    }
-
-    cout << "___________________________" << endl;
+void table(double a, double b, int widthX, int widthF) {
+    cout << "|";
+    string num1 = to_string(a);
+    num1.erase(num1.length() - 4, 4); // Обрезаем до 2 знаков после запятой
+    string num2 = to_string(b);
+    num2.erase(num2.length() - 4, 4); // Обрезаем до 2 знаков после запятой
+    
+    while (num1.length() < widthX)
+        num1 = " " + num1;
+    while (num2.length() < widthF)
+        num2 = " " + num2;
+        
+    cout << num1 << "||" << num2 << "|" << endl;
 }
 
-int countDuplicates(const vector<double>& arr) {
+void printTable(double arr[], double startX, double endX) {
+    int n = 15;
+    double step = (endX - startX) / (n - 1);  // шаг для значений x
+
+    // Вычисление максимальной ширины для столбцов
+    int maxLenX = to_string(startX).length();
+    int maxLenF = 0;
+    for (int i = 0; i < n; ++i) {
+        int len = to_string(arr[i]).length();
+        if (len > maxLenF) {
+            maxLenF = len;
+        }
+    }
+    
+    header(maxLenX, maxLenF);  // Заголовок таблицы с отступами
+    for (int i = 0; i < n; ++i) {
+        double x = startX + step * i;
+        table(x, arr[i], maxLenX, maxLenF);
+    }
+    tab(maxLenX + maxLenF + 8, "_");
+    cout << endl;
+}
+
+int countDuplicates(double arr[]) {
     map<double, int> counts;
-    for (double num : arr) {
-        counts[num]++;
+    for (int i = 0; i < 15; ++i) {
+        counts[arr[i]]++;
     }
     int duplicateCount = 0;
     for (const auto& pair : counts) {
@@ -79,61 +106,76 @@ int countDuplicates(const vector<double>& arr) {
     return duplicateCount;
 }
 
-bool isPowerOfTwo(double num) {
-    return num > 0 && fmod(num, 1) == 0 && (log2(num) == floor(log2(num)));
+bool isPowerOfTwo(double a, double b)
+{
+    double log = log2(a);
+    if ((a < b) && (log == round(log)) && (a >= 1) && (log >= 0))
+        return true;
+    else
+        return false;
 }
 
-int findPowerOfTwoSequenceIndex(const vector<double> arr) {
-    for (size_t i = 0; i < arr.size(); ++i) {
-        if (isPowerOfTwo(arr[i])) {
-            size_t j = i;
-
-            double last_num = arr[i];
-
-            while (j < arr.size() && isPowerOfTwo(last_num) && arr[j] >= last_num && isPowerOfTwo(arr[j])) {
-                last_num = arr[j];
-                ++j;
-            }
-
-            if (j == arr.size()) {
-                return i;
+int findPowerOfTwoSequenceIndex(double arr[]) {
+    int ind = -1;
+    for (int i = 14; i > -1; i--) {
+        if (i == 14) {
+            if(isPowerOfTwo(arr[i], arr[i] + 1))
+                ind = i;
+            else
                 break;
-            }
+        }
+        else{
+            if(isPowerOfTwo(arr[i], arr[i + 1]))
+                ind = i;
+            else
+                break;
         }
     }
-    return -1;
+    return ind;
+}
+
+void printMinGroups(double arr[]) {
+    for (int i = 0; i < 3; ++i) {
+        double minVal = *min_element(arr + i * 5, arr + (i + 1) * 5);
+        cout << minVal << endl;
+    }
 }
 
 int main(int argc, char* argv[]) {
     setlocale(LC_CTYPE, "rus");
     bool isHuman = false;
-	if (argc <= 1 || strcmp(argv[1], "false") != 0)
-	{
-		isHuman = true;
-	}
+    if (argc <= 1 || strcmp(argv[1], "false") != 0)
+    {
+        isHuman = true;
+    }
     double x1, x2, a, b, c;
     if(isHuman) cout << "Введите х1, х2, а, b, c: " << endl;
     cin >> x1 >> x2 >> a >> b >> c;
     if(x1 == -0) x1 = 0;
     if(x2 == -0) x2 = 0;
-    vector<double> array1(15), array2(15);
+    
+    double array1[15], array2[15];
+    // Заполнение первого массива
     for (int i = 0; i < 15; ++i) {
         double x = x1 + (x2 - x1) * (i / 14.0);
         if(x == -0) x = 0;
         array1[i] = roundValue(F(x, a, b, c), a, b, c);
     }
+    // Заполнение второго массива
     for (int i = 0; i < 15; ++i) {
         double x = -x2 + (x2 - x1) * (i / 14.0);
         if(x == -0) x = 0;
         array2[i] = roundValue(F(x, a, b, c), a, b, c);
     }
-    if(isHuman){
+
+    // Вывод таблиц для первого и второго массивов
+    if(isHuman) {
         cout << "Первый массив: " << endl;
         printTable(array1, x1, x2);
         cout << "Второй массив: " << endl;
         printTable(array2, -x2, -x1);
     }
-    else{
+    else {
         for (int i = 0; i < 15; i++) {
             if(array1[i] == -0) array1[i] = 0;
             cout << array1[i];
@@ -149,12 +191,13 @@ int main(int argc, char* argv[]) {
                 cout << " ";
             }
         }
-        cout << endl;
     }
+
     if(isHuman) cout << "Минимальные элементы групп: " << endl;
     printMinGroups(array1);
-    vector<double> sortedArray1 = array1;
-    sort(sortedArray1.begin(), sortedArray1.end());
+    double sortedArray1[15];
+    copy(begin(array1), end(array1), begin(sortedArray1));
+    sort(sortedArray1, sortedArray1 + 15);
     if(isHuman) cout << "Сортированный массив: " << endl;
     for (int i = 0; i < 15; i++) {
             if(sortedArray1[i] == -0) sortedArray1[i] = 0;
@@ -168,29 +211,28 @@ int main(int argc, char* argv[]) {
     cout << countDuplicates(array1) << endl;
     if(isHuman) cout << "Индекс степени двойки: " << endl;
     cout << findPowerOfTwoSequenceIndex(array1) << endl;
-    vector<double> negativeArray1, positiveArray2;
-    for (double val : array2) {
-        if (val < 0) {
-            negativeArray1.push_back(val);
+
+    double negativeArray1[15] = {0}, positiveArray2[15] = {0};
+    int negIndex = 0, posIndex = 0;
+
+    // Заполняем массивы для отрицательных и положительных значений
+    for (int i = 0; i < 15; ++i) {
+        if (array2[i] < 0) {
+            negativeArray1[negIndex++] = array2[i];
         }
-        if (val > 0) {
-            positiveArray2.push_back(val);
-        }
-    }
-    for (double val : array1) {
-        if (val < 0) {
-            negativeArray1.push_back(val);
-        }
-        if (val > 0) {
-            positiveArray2.push_back(val);
+        if (array2[i] > 0) {
+            positiveArray2[posIndex++] = array2[i];
         }
     }
-    while (negativeArray1.size() < 15) {
-        negativeArray1.push_back(0);
+    for (int i = 0; i < 15; ++i) {
+        if (array1[i] < 0) {
+            negativeArray1[negIndex++] = array1[i];
+        }
+        if (array1[i] > 0) {
+            positiveArray2[posIndex++] = array1[i];
+        }
     }
-    while (positiveArray2.size() < 15) {
-        positiveArray2.push_back(0);
-    }
+
     if(isHuman) cout << "Отрицательный массив: " << endl;
     for (int i = 0; i < 15; i++) {
             cout << negativeArray1[i];
