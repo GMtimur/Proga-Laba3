@@ -211,23 +211,28 @@ int main(int argc, char* argv[]) {
     double negativeArray1[15] = {}, positiveArray2[15] = {};
     int negIndex = 0, posIndex = 0;
 
+    for(int i = 0; i < 15; i++){
+            negativeArray1[i] = 0;
+            positiveArray2[i] = 0;
+        }
+
     for (int i = 0; i < 15; ++i) {  
-        if (array1[i] < 0) {
-            negativeArray1[negIndex++] = array1[i];
+        if (array2[i] < 0) {
+            negativeArray1[negIndex++] = array2[i];
         }
         if (array2[i] > 0) {
             positiveArray2[posIndex++] = array2[i];
         }
     }
+    
     for (int i = 0; i < 15; ++i) {
-        if (array2[i] < 0) {
-            negativeArray1[negIndex++] = array2[i];
+        if (array1[i] < 0) {
+            if (negativeArray1[negIndex] == 0) negativeArray1[negIndex++] = array1[i];
         }
         if (array1[i] > 0) {
-            positiveArray2[posIndex++] = array1[i];
+            if (positiveArray2[posIndex] == 0) positiveArray2[posIndex++] = array1[i];
         }
     }
-    
 
     if(isHuman) cout << "Отрицательный массив: " << endl;
     for (int i = 0; i < 15; i++) {
