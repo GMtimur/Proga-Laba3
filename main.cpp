@@ -69,41 +69,71 @@ void table(double a, double b, int widthX, int widthF) {
     cout << num1 << "||" << num2 << "|" << endl;
 }
 
+void findMaxLengths(double arr[], double startX, double endX, int& maxLenX, int& maxLenF) {
+    int n = 15;
+    double step = (endX - startX) / (n - 1);
+
+    maxLenX = to_string(startX).length();
+    maxLenF = 0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = startX + step * i; // Вычисление значения x
+        int lenX = to_string(x).length(); 
+        int lenF = to_string(arr[i]).length();
+
+        if (lenX > maxLenX) {
+            maxLenX = lenX;
+        }
+        if (lenF > maxLenF) {
+            maxLenF = lenF;
+        }
+    }
+}
+
 void printTable(double arr[], double startX, double endX) {
     int n = 15;
     double step = (endX - startX) / (n - 1);
 
-    int maxLenX = to_string(startX).length();
-    int maxLenF = 0;
+    int maxLenX, maxLenF;
+    findMaxLengths(arr, startX, endX, maxLenX, maxLenF); // Вычисление максимальных длин
+
+    header(maxLenX, maxLenF); // Заголовок таблицы
+   
     for (int i = 0; i < n; ++i) {
-        int len = to_string(arr[i]).length();
-        if (len > maxLenF) {
-            maxLenF = len;
-        }
+        double x = startX + step * i; // Вычисление значения x
+        table(x, arr[i], maxLenX, maxLenF); // Вывод строки таблицы
     }
-    
-    header(maxLenX, maxLenF); 
-    for (int i = 0; i < n; ++i) {
-        double x = startX + step * i;
-        table(x, arr[i], maxLenX, maxLenF);
-    }
-    tab(maxLenX + maxLenF + 8, "_");
+
+    tab(maxLenX + maxLenF + 8, "_"); // Нижняя линия таблицы
     cout << endl;
 }
 
 int countDuplicates(double arr[]) {
-    map<double, int> counts;
-    for (int i = 0; i < 15; ++i) {
-        counts[arr[i]]++;
-    }
     int duplicateCount = 0;
-    for (const auto& pair : counts) {
-        if (pair.second > 1) {
+    for (int i = 0; i < 15; ++i) {
+        bool isDuplicate = false;
+        for (int j = 0; j < i; ++j) {
+            if (arr[i] == arr[j]) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (isDuplicate) {
+            continue;
+        }
+        int count = 0;
+        for (int j = i; j < 15; ++j) {
+            if (arr[i] == arr[j]) {
+                count++;
+            }
+        }
+        if (count > 1) {
             duplicateCount++;
         }
     }
     return duplicateCount;
 }
+
 
 bool isPowerOfTwo(double a, double b)
 {
@@ -133,10 +163,60 @@ int findPowerOfTwoSequenceIndex(double arr[]) {
     return ind;
 }
 
+void roundArrays(double array[], double x1, double x2, double a, double b, double c, bool isArray1){
+    for (int i = 0; i < 15; ++i) {
+        double x = 0;
+        if(isArray1){
+            x = x1 + (x2 - x1) * (i / 14.0);
+        }
+        else {
+            x = -x2 + (x2 - x1) * (i / 14.0);
+        }
+        if(x == -0) x = 0;
+        array[i] = roundValue(F(x, a, b, c), a, b, c);
+    }
+}
+
+void printArrays(double array[]){
+    for (int i = 0; i < 15; i++) {
+            if(array[i] == -0) array[i] = 0;
+            cout << array[i];
+            if(i != 14){
+            cout << " ";
+        }
+    }
+    cout << endl;
+}
+
 void printMinGroups(double arr[]) {
     for (int i = 0; i < 3; ++i) {
-        double minVal = *min_element(arr + i * 5, arr + (i + 1) * 5);
+        double minVal = arr[i * 5];
+        for (int j = 1; j < 5; ++j) {
+            if (arr[i * 5 + j] < minVal) {
+                minVal = arr[i * 5 + j];
+            }
+        }
         cout << minVal << endl;
+    }
+}
+
+void customCopy(double array[], double copyArray[], int size) {
+    for (int i = 0; i < size; ++i) {
+        copyArray[i] = array[i];
+    }
+}
+
+void customSort(double* begin, double* end) {
+    int size = end - begin;
+    for (int i = 0; i < size - 1; ++i) {
+        for (int j = 0; j < size - i - 1; ++j) {
+            if (begin[j] > begin[j + 1]) {
+                // Обмен значений
+                double temp = begin[j];
+                begin[j] = begin[j + 1];
+                begin[j + 1] = temp;
+            }
+        }
     }
 }
 
@@ -154,16 +234,8 @@ int main(int argc, char* argv[]) {
     if(x2 == -0) x2 = 0;
     
     double array1[15], array2[15];
-    for (int i = 0; i < 15; ++i) {
-        double x = x1 + (x2 - x1) * (i / 14.0);
-        if(x == -0) x = 0;
-        array1[i] = roundValue(F(x, a, b, c), a, b, c);
-    }
-    for (int i = 0; i < 15; ++i) {
-        double x = -x2 + (x2 - x1) * (i / 14.0);
-        if(x == -0) x = 0;
-        array2[i] = roundValue(F(x, a, b, c), a, b, c);
-    }
+    roundArrays(array1, x1, x2, a, b, c, true);
+    roundArrays(array2, x1, x2, a, b, c, false);
     if(isHuman) {
         cout << "Первый массив: " << endl;
         printTable(array1, x1, x2);
@@ -171,29 +243,15 @@ int main(int argc, char* argv[]) {
         printTable(array2, -x2, -x1);
     }
     else {
-        for (int i = 0; i < 15; i++) {
-            if(array1[i] == -0) array1[i] = 0;
-            cout << array1[i];
-            if(i != 14){
-                cout << " ";
-            }
-        }
-        cout << endl;
-        for (int i = 0; i < 15; i++) {
-            if(array2[i] == -0) array2[i] = 0;
-            cout << array2[i];
-            if(i != 14){
-                cout << " ";
-            }
-        }
-        cout << endl;
+        printArrays(array1);
+        printArrays(array2);
     }
 
     if(isHuman) cout << "Минимальные элементы групп: " << endl;
     printMinGroups(array1);
     double sortedArray1[15];
-    copy(begin(array1), end(array1), begin(sortedArray1));
-    sort(sortedArray1, sortedArray1 + 15);
+    customCopy(array1, sortedArray1, 15);
+    customSort(sortedArray1, sortedArray1 + 15);
     if(isHuman) cout << "Сортированный массив: " << endl;
     for (int i = 0; i < 15; i++) {
             if(sortedArray1[i] == -0) sortedArray1[i] = 0;
