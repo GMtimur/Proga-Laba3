@@ -1,12 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <algorithm>
-#include <map>
 #include <cmath>
-#include <cstring>
-#include <sstream>
-#include <bitset>
-#include <unordered_set>
 
 using namespace std;
 
@@ -77,7 +71,7 @@ void findMaxLengths(double arr[], double startX, double endX, int& maxLenX, int&
     maxLenF = 0;
 
     for (int i = 0; i < n; ++i) {
-        double x = startX + step * i; // Вычисление значения x
+        double x = startX + step * i;
         int lenX = to_string(x).length(); 
         int lenF = to_string(arr[i]).length();
 
@@ -95,16 +89,16 @@ void printTable(double arr[], double startX, double endX) {
     double step = (endX - startX) / (n - 1);
 
     int maxLenX, maxLenF;
-    findMaxLengths(arr, startX, endX, maxLenX, maxLenF); // Вычисление максимальных длин
+    findMaxLengths(arr, startX, endX, maxLenX, maxLenF);
 
-    header(maxLenX, maxLenF); // Заголовок таблицы
+    header(maxLenX, maxLenF);
    
     for (int i = 0; i < n; ++i) {
-        double x = startX + step * i; // Вычисление значения x
-        table(x, arr[i], maxLenX, maxLenF); // Вывод строки таблицы
+        double x = startX + step * i;
+        table(x, arr[i], maxLenX, maxLenF);
     }
 
-    tab(maxLenX + maxLenF + 8, "_"); // Нижняя линия таблицы
+    tab(maxLenX + maxLenF + 8, "_");
     cout << endl;
 }
 
@@ -253,14 +247,7 @@ int main(int argc, char* argv[]) {
     customCopy(array1, sortedArray1, 15);
     customSort(sortedArray1, sortedArray1 + 15);
     if(isHuman) cout << "Сортированный массив: " << endl;
-    for (int i = 0; i < 15; i++) {
-            if(sortedArray1[i] == -0) sortedArray1[i] = 0;
-            cout << sortedArray1[i];
-            if(i != 14){
-                cout << " ";
-            }
-        }
-    cout << endl;
+    printArrays(sortedArray1);
     if(isHuman) cout << "Дубликаты: " << endl;
     cout << countDuplicates(array1) << endl;
     if(isHuman) cout << "Индекс степени двойки: " << endl;
@@ -293,21 +280,9 @@ int main(int argc, char* argv[]) {
     }
 
     if(isHuman) cout << "Отрицательный массив: " << endl;
-    for (int i = 0; i < 15; i++) {
-            cout << negativeArray1[i];
-            if(i != 14){
-                cout << " ";
-            }
-        }
-    cout << endl;
+    printArrays(negativeArray1);
     if(isHuman) cout << "Положительный массив: " << endl;
-    for (int i = 0; i < 15; i++) {
-            cout << positiveArray2[i];
-            if(i != 14){
-                cout << " ";
-            }
-        }
-    cout << endl;
+    printArrays(positiveArray2);
 
     return 0;
 }
