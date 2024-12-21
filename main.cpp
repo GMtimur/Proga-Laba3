@@ -1,6 +1,12 @@
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
+#include <map>
 #include <cmath>
+#include <cstring>
+#include <sstream>
+#include <bitset>
+#include <unordered_set>
 
 using namespace std;
 
